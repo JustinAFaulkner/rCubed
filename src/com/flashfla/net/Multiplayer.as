@@ -8,9 +8,9 @@ package com.flashfla.net
     import classes.User;
     import classes.Gameplay;
 
-	import com.smartfoxserver.v2.SmartFox
-	import com.smartfoxserver.v2.core.SFSEvent
-    
+    import com.smartfoxserver.v2.SmartFox
+    import com.smartfoxserver.v2.core.SFSEvent
+
     import com.flashfla.net.events.ConnectionEvent;
     import com.flashfla.net.events.LoginEvent;
     import com.flashfla.net.events.ErrorEvent;
@@ -27,6 +27,7 @@ package com.flashfla.net
     import com.flashfla.net.events.ExtensionResponseEvent;
     import com.flashfla.net.events.RoomUserStatusEvent;
     import com.flashfla.utils.StringUtil;
+
     import com.smartfoxserver.v2.requests.LoginRequest;
     import com.smartfoxserver.v2.requests.LogoutRequest;
     import com.smartfoxserver.v2.requests.ModeratorMessageRequest;
@@ -139,7 +140,7 @@ package com.flashfla.net
 
             // TODO: Find alternative.
             //server.addEventListener(SFSEvent.LEF, onLeftRoom);
-            server.addEventListener(SFSEvent.ROOM_GROUP_UNSUBSCRIBE_ERROR, onJoinedRoom);
+            server.addEventListener(SFSEvent.ROOM_JOIN, onJoinedRoom);
             server.addEventListener(SFSEvent.ROOM_JOIN_ERROR, onJoinRoomError);
             server.addEventListener(SFSEvent.USER_COUNT_CHANGE, onUserCountChange);
             server.addEventListener(SFSEvent.USER_ENTER_ROOM, onUserEnterRoom);

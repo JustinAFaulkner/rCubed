@@ -1,7 +1,7 @@
 package com.flashfla.net.events
 {
 
-    import it.gotoandplay.smartfoxserver.TypedSFSEvent;
+    import com.flashfla.net.sfs.TypedSFSEvent;
     import classes.Room
     import com.flashfla.net.Multiplayer;
 
