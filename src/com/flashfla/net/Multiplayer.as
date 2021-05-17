@@ -8,31 +8,9 @@ package com.flashfla.net
     import classes.User;
     import classes.Gameplay;
 
-    import it.gotoandplay.smartfoxserver.SFSEvents.AdminMessageSFSEvent;
-    import it.gotoandplay.smartfoxserver.SFSEvents.ExtensionResponseSFSEvent;
-    import it.gotoandplay.smartfoxserver.SFSEvents.DebugMessageSFSEvent;
-    import it.gotoandplay.smartfoxserver.SFSEvents.CreateRoomErrorSFSEvent;
-    import it.gotoandplay.smartfoxserver.SFSEvents.LogoutSFSEvent;
-    import it.gotoandplay.smartfoxserver.SFSEvents.ModerationMessageSFSEvent;
-    import it.gotoandplay.smartfoxserver.SFSEvents.PlayerSwitchedSFSEvent;
-    import it.gotoandplay.smartfoxserver.SFSEvents.SpectatorSwitchedSFSEvent;
-    import it.gotoandplay.smartfoxserver.SFSEvents.PrivateMessageSFSEvent;
-    import it.gotoandplay.smartfoxserver.SFSEvents.PublicMessageSFSEvent;
-    import it.gotoandplay.smartfoxserver.SFSEvents.RoomListUpdateSFSEvent;
-    import it.gotoandplay.smartfoxserver.SFSEvents.RoomVariablesUpdateSFSEvent;
-    import it.gotoandplay.smartfoxserver.SFSEvents.RoomAddedSFSEvent;
-    import it.gotoandplay.smartfoxserver.SFSEvents.RoomDeletedSFSEvent;
-    import it.gotoandplay.smartfoxserver.SFSEvents.LeftRoomSFSEvent;
-    import it.gotoandplay.smartfoxserver.SFSEvents.JoinedRoomSFSEvent;
-    import it.gotoandplay.smartfoxserver.SFSEvents.JoinRoomErrorSFSEvent;
-    import it.gotoandplay.smartfoxserver.SFSEvents.UserCountChangeSFSEvent;
-    import it.gotoandplay.smartfoxserver.SFSEvents.UserEnterRoomSFSEvent;
-    import it.gotoandplay.smartfoxserver.SFSEvents.UserLeftRoomSFSEvent;
-    import it.gotoandplay.smartfoxserver.SFSEvents.UserVariablesUpdateSFSEvent;
-    import it.gotoandplay.smartfoxserver.SFSEvents.ConnectionSFSEvent;
-    import it.gotoandplay.smartfoxserver.SFSEvents.ConnectionLostSFSEvent;
-    import it.gotoandplay.smartfoxserver.SmartFoxClient;
-    import it.gotoandplay.smartfoxserver.SFSEvent;
+	import com.smartfoxserver.v2.SmartFox
+	import com.smartfoxserver.v2.core.SFSEvent
+    
     import com.flashfla.net.events.ConnectionEvent;
     import com.flashfla.net.events.LoginEvent;
     import com.flashfla.net.events.ErrorEvent;
@@ -49,6 +27,16 @@ package com.flashfla.net
     import com.flashfla.net.events.ExtensionResponseEvent;
     import com.flashfla.net.events.RoomUserStatusEvent;
     import com.flashfla.utils.StringUtil;
+    import com.smartfoxserver.v2.requests.LoginRequest;
+    import com.smartfoxserver.v2.requests.LogoutRequest;
+    import com.smartfoxserver.v2.requests.ModeratorMessageRequest;
+    import com.smartfoxserver.v2.requests.MessageRecipientMode;
+    import com.smartfoxserver.v2.entities.User;
+    import com.smartfoxserver.v2.requests.ExtensionRequest;
+    import com.smartfoxserver.v2.entities.data.ISFSObject;
+    import com.smartfoxserver.v2.entities.data.SFSObject;
+    import com.smartfoxserver.v2.requests.JoinRoomRequest;
+    import com.smartfoxserver.v2.requests.LeaveRoomRequest;
 
     public class Multiplayer extends EventDispatcher
     {
@@ -106,7 +94,7 @@ package com.flashfla.net
         public static const SERVER_ZONE:String = "ffr_multiplayer";
         public static const SERVER_EXTENSION:String = "FFR_EXT";
 
-        private var server:SmartFoxClient;
+        private var server:SmartFox;
 
         private var _rooms:Object;
         private var _lobby:Room;
@@ -124,34 +112,39 @@ package com.flashfla.net
             currentUser = new User(false, true);
             ghostRooms = new <Room>[];
 
-            server = new SmartFoxClient(false); // CONFIG::debug);
+            server = new SmartFox(false);
 
             CONFIG::debug
             {
-                server.addEventListener(SFSEvent.onDebugMessage, onDebugMessage);
+                // TODO: Debug message does not exist.
+                //server.addEventListener(SFSEvent., onDebugMessage);
             }
-            server.addEventListener(SFSEvent.onConnection, onConnection);
-            server.addEventListener(SFSEvent.onConnectionLost, onConnectionLost);
-            server.addEventListener(SFSEvent.onCreateRoomError, onCreateRoomError);
-            server.addEventListener(SFSEvent.onExtensionResponse, onExtensionResponse);
-            server.addEventListener(SFSEvent.onLogout, onLogout);
-            server.addEventListener(SFSEvent.onAdminMessage, onAdminMessage);
-            server.addEventListener(SFSEvent.onModeratorMessage, onModeratorMessage);
-            server.addEventListener(SFSEvent.onPlayerSwitched, onPlayerSwitched);
-            server.addEventListener(SFSEvent.onSpectatorSwitched, onSpectatorSwitched);
-            server.addEventListener(SFSEvent.onPublicMessage, onPublicMessage);
-            server.addEventListener(SFSEvent.onPrivateMessage, onPrivateMessage);
-            server.addEventListener(SFSEvent.onRoomListUpdate, onRoomListUpdate);
-            server.addEventListener(SFSEvent.onRoomVariablesUpdate, onRoomVariablesUpdate);
-            server.addEventListener(SFSEvent.onRoomAdded, onRoomAdded);
-            server.addEventListener(SFSEvent.onRoomDeleted, onRoomDeleted);
-            server.addEventListener(SFSEvent.onRoomLeft, onLeftRoom);
-            server.addEventListener(SFSEvent.onJoinRoom, onJoinedRoom);
-            server.addEventListener(SFSEvent.onJoinRoomError, onJoinRoomError);
-            server.addEventListener(SFSEvent.onUserCountChange, onUserCountChange);
-            server.addEventListener(SFSEvent.onUserEnterRoom, onUserEnterRoom);
-            server.addEventListener(SFSEvent.onUserLeaveRoom, onUserLeftRoom);
-            server.addEventListener(SFSEvent.onUserVariablesUpdate, onUserVariablesUpdate);
+            server.addEventListener(SFSEvent.CONNECTION, onConnection);
+            server.addEventListener(SFSEvent.CONNECTION_LOST, onConnectionLost);
+            server.addEventListener(SFSEvent.ROOM_CREATION_ERROR, onCreateRoomError);
+            server.addEventListener(SFSEvent.EXTENSION_RESPONSE, onExtensionResponse);
+            server.addEventListener(SFSEvent.LOGOUT, onLogout);
+            server.addEventListener(SFSEvent.ADMIN_MESSAGE, onAdminMessage);
+            server.addEventListener(SFSEvent.MODERATOR_MESSAGE, onModeratorMessage);
+            server.addEventListener(SFSEvent.PLAYER_TO_SPECTATOR, onPlayerSwitched);
+            server.addEventListener(SFSEvent.SPECTATOR_TO_PLAYER, onSpectatorSwitched);
+            server.addEventListener(SFSEvent.PUBLIC_MESSAGE, onPublicMessage);
+            server.addEventListener(SFSEvent.PRIVATE_MESSAGE, onPrivateMessage);
+
+            // TODO: Find alternative.
+            //server.addEventListener(SFSEvent.onRoomListUpdate, onRoomListUpdate);
+            server.addEventListener(SFSEvent.ROOM_VARIABLES_UPDATE, onRoomVariablesUpdate);
+            server.addEventListener(SFSEvent.ROOM_ADD, onRoomAdded);
+            server.addEventListener(SFSEvent.ROOM_REMOVE, onRoomDeleted);
+
+            // TODO: Find alternative.
+            //server.addEventListener(SFSEvent.LEF, onLeftRoom);
+            server.addEventListener(SFSEvent.ROOM_GROUP_UNSUBSCRIBE_ERROR, onJoinedRoom);
+            server.addEventListener(SFSEvent.ROOM_JOIN_ERROR, onJoinRoomError);
+            server.addEventListener(SFSEvent.USER_COUNT_CHANGE, onUserCountChange);
+            server.addEventListener(SFSEvent.USER_ENTER_ROOM, onUserEnterRoom);
+            server.addEventListener(SFSEvent.USER_EXIT_ROOM, onUserLeftRoom);
+            server.addEventListener(SFSEvent.USER_VARIABLES_UPDATE, onUserVariablesUpdate);
         }
 
 
@@ -398,7 +391,9 @@ package com.flashfla.net
         private function getRoomUserById(room:Room, userId:int):User
         {
             if (room == null)
+            {
                 return null;
+            }
 
             return room.getUser(userId);
         }
@@ -422,93 +417,152 @@ package com.flashfla.net
         public function login(username:String, password:String):void
         {
             if (connected)
-                server.login(SERVER_ZONE, username, password);
+            {
+                server.send(new LoginRequest(username, password));
+            }
         }
 
         public function logout():void
         {
             if (connected)
-                server.logout();
+            {
+                server.send(new LogoutRequest());
+            }
         }
 
         public function sendServerMessage(message:String, target:Object = null):void
         {
             if (connected)
             {
-                if (target == null)
-                    server.sendModeratorMessage(message, SmartFoxClient.MODMSG_TO_ZONE);
-                else if (target.userID != null)
-                    server.sendModeratorMessage(message, SmartFoxClient.MODMSG_TO_USER, target.id);
+                var recipMode:MessageRecipientMode = new MessageRecipientMode(MessageRecipientMode.TO_ZONE, server.currentZone);
+
+                if (target.userID != null)
+                {
+                    recipMode = new MessageRecipientMode(MessageRecipientMode.TO_USER, target.userID);
+                }
                 else if (target.roomID != null)
-                    server.sendModeratorMessage(message, SmartFoxClient.MODMSG_TO_ROOM, target.id);
+                {
+                    recipMode = new MessageRecipientMode(MessageRecipientMode.TO_ROOM, server.lastJoinedRoom);
+                }
+
+                server.send(new ModeratorMessageRequest(message, recipMode));
             }
         }
 
         public function nukeRoom(room:Room):void
         {
             if (connected && room)
-                server.sendXtMessage(SERVER_EXTENSION, "nuke_room", {"room": room.id}, SmartFoxClient.XTMSG_TYPE_XML, lobby.id);
+            {
+                var params:ISFSObject = new SFSObject();
+                params.putInt("roomt", room.id);
+                server.send(new ExtensionRequest("nuke_room", params));
+            }
         }
 
         public function muteUser(user:User, time:int = 2, ipBan:Boolean = false):void
         {
             if (connected && user)
-                server.sendXtMessage(SERVER_EXTENSION, "mute_user", {"user": user.name, "bantime": time, "ip": (ipBan ? 1 : 0)}, SmartFoxClient.XTMSG_TYPE_XML, lobby.id);
+            {
+                var params:ISFSObject = new SFSObject();
+                params.putInt("user", user.name);
+                params.putInt("bantime", time);
+                params.putInt("ip", (ipBan ? 1 : 0));
+                server.send(new ExtensionRequest("mute_user", params));
+            }
         }
 
         public function banUser(user:User, time:int = 2, ipBan:Boolean = false):void
         {
             if (connected && user)
-                server.sendXtMessage(SERVER_EXTENSION, "ban_user", {"user": user.name, "bantime": time, "ip": (ipBan ? 1 : 0)}, SmartFoxClient.XTMSG_TYPE_XML, lobby.id);
+            {
+                var params:ISFSObject = new SFSObject();
+                params.putInt("user", user.name);
+                params.putInt("bantime", time);
+                params.putInt("ip", (ipBan ? 1 : 0));
+                server.send(new ExtensionRequest("ban_user", params));
+            }
         }
 
         public function sendHTMLMessage(message:String, target:Object = null):void
         {
             if (connected)
             {
+                var params:ISFSObject = new SFSObject();
+                params.putUtfString("m", message);
+
                 if (target == null)
-                    server.sendXtMessage(SERVER_EXTENSION, "html_message", {"m": message, "t": SmartFoxClient.MODMSG_TO_ZONE, "v": null});
+                {
+                    params.putInt("t", MessageRecipientMode.TO_ZONE);
+                    params.putInt("v", null);
+                }
                 else if (target.id != null)
-                    server.sendXtMessage(SERVER_EXTENSION, "html_message", {"m": message, "t": SmartFoxClient.MODMSG_TO_USER, "v": target.id});
+                {
+                    params.putInt("t", MessageRecipientMode.TO_USER);
+                    params.putInt("v", target.id);
+                }
+                // TODO: This is broken and will never be hit.
                 else if (target.id != null)
-                    server.sendXtMessage(SERVER_EXTENSION, "html_message", {"m": message, "t": SmartFoxClient.MODMSG_TO_ROOM, "v": target.id});
+                {
+                    params.putInt("t", MessageRecipientMode.TO_ROOM);
+                    params.putInt("v", target.id);
+                }
+
+                server.send(new ExtensionRequest("html_message", params));
             }
         }
 
         public function getUserList(room:Room):void
         {
             if (connected && room)
-                server.sendXtMessage(SERVER_EXTENSION, "getUserList", {"room": room.id});
+            {
+                var params:ISFSObject = new SFSObject();
+                params.putInt("roomt", room.id);
+                server.send(new ExtensionRequest("getUserList", params));
+            }
         }
 
+        // TODO: Unreferenced function with uncertain usage.
         public function getUserVariables(... users):void
         {
             if (connected)
-                server.sendXtMessage(SERVER_EXTENSION, "getUserVariables", {"users": users});
+            {
+                var params:ISFSObject = new SFSObject();
+                //params.putSFSArray("users", users);
+                server.send(new ExtensionRequest("getUserVariables", params));
+            }
         }
 
         public function getMultiplayerLevel():void
         {
             if (connected)
-                server.sendXtMessage(SERVER_EXTENSION, "getMultiplayerLevel", {});
+            {
+                server.send(new ExtensionRequest("getMultiplayerLevel", null));
+            }
         }
 
         public function reportSongStart(room:Room):void
         {
             if (connected)
-                server.sendXtMessage(SERVER_EXTENSION, "playerStart", {}, "xml", room.id);
+            {
+                server.send(new ExtensionRequest("playerStart", null, getRoomById(room.id)));
+            }
         }
 
         public function reportSongEnd(room:Room):void
         {
             if (connected)
-                server.sendXtMessage(SERVER_EXTENSION, "playerFinish", {}, "xml", room.id);
+            {
+                server.send(new ExtensionRequest("playerFinish", null, getRoomById(room.id)));
+            }
         }
 
         public function refreshRooms():void
         {
             if (connected)
-                server.getRoomList();
+            {
+                // TODO: I'm pretty sure this is kept up to date automatically now?
+                server.roomList;
+            }
         }
 
         /**
@@ -523,7 +577,9 @@ package com.flashfla.net
             if (room.isGameRoom)
                 asPlayer &&= room.userCount < Room.MAX_PLAYERS;
 
-            server.joinRoom(room.id, password, !asPlayer, true);
+            // TODO: Check that NaN successfully leaves the last joined room.
+            // http://docs2x.smartfoxserver.com/api-docs/asdoc/com/smartfoxserver/v2/requests/JoinRoomRequest.html#JoinRoomRequest()
+            server.send(new JoinRoomRequest(room.id, password, NaN, !asPlayer));
         }
 
         public function joinLobby():void
@@ -539,7 +595,8 @@ package com.flashfla.net
             if (connected && room)
             {
                 clearCurrentUserRoomVariables(room);
-                server.leaveRoom(room.id);
+
+                server.send(new LeaveRoomRequest(getRoomById(room.id)));
             }
         }
 
