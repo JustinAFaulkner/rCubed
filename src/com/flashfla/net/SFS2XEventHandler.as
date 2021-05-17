@@ -9,6 +9,9 @@ package com.flashfla.net
     {
         private var sfs:SmartFox;
 
+        // TODO: For the API for each implementation, see here:
+        // TODO: http://docs2x.smartfoxserver.com/api-docs/asdoc/com/smartfoxserver/v2/core/SFSEvent.html
+
         public function SFS2XEventHandler(sfs:SmartFox)
         {
             this.sfs = sfs;
