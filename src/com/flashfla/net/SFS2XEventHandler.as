@@ -1,7 +1,9 @@
 package com.flashfla.net
 {
+    import com.flashfla.net.sfs.SFSEvents.*;
     import com.smartfoxserver.v2.SmartFox;
     import com.smartfoxserver.v2.core.SFSEvent;
+    import classes.User;
 
     public class SFS2XEventHandler
     {
@@ -67,6 +69,12 @@ package com.flashfla.net
 
         private function handleAdminMessage(event:SFSEvent):void
         {
+            // TODO: This seems unnecessarily heavy.
+            var newUser:User = new User();
+            newUser.id = event.params.user.id
+            newUser.name = event.params.user.name;
+
+            new AdminMessage({sender: newUser, message: event.params.message, data: event.params.data});
         }
 
         private function handleConfigLoadFailure(event:SFSEvent):void
