@@ -26,13 +26,13 @@ package com.flashfla.net
     import com.flashfla.net.events.GameResultsEvent;
     import com.flashfla.net.events.ExtensionResponseEvent;
     import com.flashfla.net.events.RoomUserStatusEvent;
+    import com.flashfla.net.sfs.SFSEvents.*;
     import com.flashfla.utils.StringUtil;
 
     import com.smartfoxserver.v2.requests.LoginRequest;
     import com.smartfoxserver.v2.requests.LogoutRequest;
     import com.smartfoxserver.v2.requests.ModeratorMessageRequest;
     import com.smartfoxserver.v2.requests.MessageRecipientMode;
-    import com.smartfoxserver.v2.entities.User;
     import com.smartfoxserver.v2.requests.ExtensionRequest;
     import com.smartfoxserver.v2.entities.data.ISFSObject;
     import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -465,7 +465,7 @@ package com.flashfla.net
             if (connected && user)
             {
                 var params:ISFSObject = new SFSObject();
-                params.putInt("user", user.name);
+                params.putInt("user", user.id);
                 params.putInt("bantime", time);
                 params.putInt("ip", (ipBan ? 1 : 0));
                 server.send(new ExtensionRequest("mute_user", params));
@@ -477,7 +477,7 @@ package com.flashfla.net
             if (connected && user)
             {
                 var params:ISFSObject = new SFSObject();
-                params.putInt("user", user.name);
+                params.putInt("user", user.id);
                 params.putInt("bantime", time);
                 params.putInt("ip", (ipBan ? 1 : 0));
                 server.send(new ExtensionRequest("ban_user", params));
@@ -545,7 +545,7 @@ package com.flashfla.net
         {
             if (connected)
             {
-                server.send(new ExtensionRequest("playerStart", null, getRoomById(room.id)));
+                server.send(new ExtensionRequest("playerStart", null, getRoomById(room.id).));
             }
         }
 

@@ -4,10 +4,19 @@ package com.flashfla.net
     import com.smartfoxserver.v2.SmartFox;
     import com.smartfoxserver.v2.core.SFSEvent;
     import classes.User;
+    import flash.events.EventDispatcher;
+    import com.flashfla.net.sfs.SFSEvents.ConfigLoadSuccessSFSEvent;
+    import com.flashfla.net.sfs.SFSEvents.CryptoInitSFSEvent;
+    import com.flashfla.net.sfs.SFSEvents.ExtensionResponseSFSEvent;
+    import classes.Room;
+    import com.smartfoxserver.v2.entities.SFSRoom;
 
-    public class SFS2XEventHandler
+    public class SFS2XEventHandler extends EventDispatcher
     {
         private var sfs:SmartFox;
+
+        private const USE_CAPTURE:Boolean = true;
+        private const PRIORITY_VALUE:int = int.MAX_VALUE - 10;
 
         // TODO: For the API for each implementation, see here:
         // TODO: http://docs2x.smartfoxserver.com/api-docs/asdoc/com/smartfoxserver/v2/core/SFSEvent.html
@@ -25,7 +34,7 @@ package com.flashfla.net
             this.sfs.addEventListener(SFSEvent.CONNECTION_RESUME, handleConnectionResume);
             this.sfs.addEventListener(SFSEvent.CONNECTION_RETRY, handleConnectionRetry);
             this.sfs.addEventListener(SFSEvent.CRYPTO_INIT, handleCryptoInit);
-            this.sfs.addEventListener(SFSEvent.EXTENSION_RESPONSE, handleExtensionResponse);
+            this.sfs.addEventListener(SFSEvent.EXTENSION_RESPONSE, handleExtensionResponse, USE_CAPTURE, PRIORITY_VALUE);
             this.sfs.addEventListener(SFSEvent.HANDSHAKE, handleHandleshake);
             this.sfs.addEventListener(SFSEvent.INVITATION, handleInvitation);
             this.sfs.addEventListener(SFSEvent.INVITATION_REPLY, handleInvitationReply);
@@ -76,44 +85,58 @@ package com.flashfla.net
             var newUser:User = new User();
             newUser.id = event.params.user.id
             newUser.name = event.params.user.name;
-
-            new AdminMessage({sender: newUser, message: event.params.message, data: event.params.data});
+            this.dispatchEvent(new AdminMessageSFSEvent({sender: newUser, message: event.params.message, data: event.params.data}));
         }
 
         private function handleConfigLoadFailure(event:SFSEvent):void
         {
+            this.dispatchEvent(new ConfigLoadFailureSFSEvent());
         }
 
         private function handleConfigLoadSuccess(event:SFSEvent):void
         {
+            this.dispatchEvent(new ConfigLoadSuccessSFSEvent());
         }
 
         private function handleConnection(event:SFSEvent):void
         {
+            this.dispatchEvent(new ConnectionSFSEvent(event.params))
         }
 
         private function handleConnectionAttemptHttp(event:SFSEvent):void
         {
+            this.dispatchEvent(new ConnectionAttemptHTTPSFSEvent())
         }
 
         private function handleConnectionLost(event:SFSEvent):void
         {
+            this.dispatchEvent(new ConnectionLostSFSEvent(event.params))
         }
 
         private function handleConnectionResume(event:SFSEvent):void
         {
+            this.dispatchEvent(new ConnectionResumeSFSEvent());
         }
 
         private function handleConnectionRetry(event:SFSEvent):void
         {
+            this.dispatchEvent(new ConnectionRetrySFSEvent());
         }
 
         private function handleCryptoInit(event:SFSEvent):void
         {
+            this.dispatchEvent(new CryptoInitSFSEvent(event.params));
         }
 
         private function handleExtensionResponse(event:SFSEvent):void
         {
+            var sfsRoom:SFSRoom = event.params.room;
+            var room:Room = new Room(sfsRoom.id, sfsRoom.name, sfsRoom.maxUsers, sfsRoom.maxSpectators, sfsRoom.isGame, sfsRoom.isPasswordProtected, sfsRoom.userCount, sfsRoom.spectatorCount);
+
+            this.dispatchEvent(new ExtensionResponseSFSEvent({command: event.params.command,
+                    params: event.params.params,
+                    room: event.params.room,
+                    packetId: event.params.packetId}))
         }
 
         private function handleHandleshake(event:Object):void

@@ -17,7 +17,7 @@ package arc.mp
     import com.bit101.components.Style;
     import com.bit101.components.Window;
     import com.flashfla.net.Multiplayer;
-    import com.flashfla.net.events.ConnectionEvent;
+    import com.flashfla.net.events.ConnectionSFSEvent;
     import com.flashfla.net.events.LoginEvent;
     import com.flashfla.net.events.RoomJoinedEvent;
     import com.flashfla.net.events.RoomLeftEvent;
@@ -164,7 +164,7 @@ package arc.mp
             Alert.add("Server Message: " + event.message);
         }
 
-        private function onConnectionEvent(event:ConnectionEvent):void
+        private function onConnectionEvent(event:ConnectionSFSEvent):void
         {
             showButton(buttonDisconnect, connection.connected);
             showButton(buttonMP, !connection.connected);

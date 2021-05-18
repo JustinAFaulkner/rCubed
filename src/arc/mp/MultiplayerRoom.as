@@ -7,7 +7,7 @@ package arc.mp
     import com.bit101.components.Window;
     import com.flashfla.net.Multiplayer;
     import com.flashfla.net.events.GameStartEvent;
-    import com.flashfla.net.events.ConnectionEvent;
+    import com.flashfla.net.events.ConnectionSFSEvent;
     import com.flashfla.net.events.RoomLeftEvent;
     import com.flashfla.net.events.RoomUserEvent;
     import com.flashfla.net.events.RoomUserStatusEvent;
@@ -134,7 +134,7 @@ package arc.mp
                 MultiplayerSingleton.getInstance().spectateGame(room);
         }
 
-        private function onConnectionUpdate(event:ConnectionEvent):void
+        private function onConnectionUpdate(event:ConnectionSFSEvent):void
         {
             if (!connection.connected)
                 room = null;

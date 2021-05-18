@@ -10,7 +10,7 @@ package arc.mp
     import com.flashfla.net.events.ExtensionResponseEvent;
     import com.flashfla.net.events.MessageEvent;
     import com.flashfla.net.events.RoomUserEvent;
-    import com.flashfla.net.events.ConnectionEvent;
+    import com.flashfla.net.events.ConnectionSFSEvent;
     import com.flashfla.net.events.LoginEvent;
     import com.flashfla.net.events.RoomJoinedEvent;
     import com.flashfla.net.events.GameResultsEvent;
@@ -121,7 +121,7 @@ package arc.mp
                 textAreaAddLine(textFormatUser(event.user, room.getUser(event.user.id) != null));
         }
 
-        private function onConnectionEvent(event:ConnectionEvent):void
+        private function onConnectionEvent(event:ConnectionSFSEvent):void
         {
             if (!connection.connected)
                 textAreaAddLine(textFormatDisconnect());

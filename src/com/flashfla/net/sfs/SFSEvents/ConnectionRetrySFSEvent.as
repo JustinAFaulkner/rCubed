@@ -3,12 +3,11 @@ package com.flashfla.net.sfs.SFSEvents
     import com.flashfla.net.sfs.TypedSFSEvent;
     import com.smartfoxserver.v2.core.SFSEvent;
 
-    public class ConfigLoadSuccessSFSEvent extends TypedSFSEvent
+    public class ConnectionRetrySFSEvent extends TypedSFSEvent
     {
-
-        public function ConfigLoadSuccessSFSEvent()
+        public function ConnectionRetrySFSEvent()
         {
-            super(SFSEvent.CONFIG_LOAD_SUCCESS);
+            super(SFSEvent.CONNECTION_RETRY);
         }
     }
 }

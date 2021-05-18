@@ -5,13 +5,13 @@ package com.flashfla.net.sfs.SFSEvents
     import com.smartfoxserver.v2.entities.data.ISFSObject;
     import classes.User;
 
-    public class AdminMessage extends TypedSFSEvent
+    public class AdminMessageSFSEvent extends TypedSFSEvent
     {
         public var sender:User;
         public var message:String;
         public var data:ISFSObject;
 
-        public function AdminMessage(params:Object)
+        public function AdminMessageSFSEvent(params:Object)
         {
             super(SFSEvent.ADMIN_MESSAGE);
 

@@ -1,19 +1,17 @@
 package com.flashfla.net.sfs.SFSEvents
 {
-
     import com.flashfla.net.sfs.TypedSFSEvent;
-    import com.smartfoxserver.v2.core.SFSEvent;
+    import com.flashfla.net.Multiplayer;
 
     public class ConnectionSFSEvent extends TypedSFSEvent
     {
         public var success:Boolean;
-        public var error:String;
 
         public function ConnectionSFSEvent(params:Object)
         {
-            super(SFSEvent.onConnection);
-            success = params.success;
-            error = params.error;
+            super(Multiplayer.EVENT_CONNECTION);
+
+            this.success = params.success;
         }
     }
 }

@@ -11,7 +11,7 @@ package arc.mp
     import classes.chart.Song;
     import classes.replay.Replay;
     import com.flashfla.net.Multiplayer;
-    import com.flashfla.net.events.ConnectionEvent;
+    import com.flashfla.net.events.ConnectionSFSEvent;
     import com.flashfla.net.events.ErrorEvent;
     import com.flashfla.net.events.GameResultsEvent;
     import com.flashfla.net.events.GameStartEvent;
@@ -113,7 +113,7 @@ package arc.mp
             Alert.add("MP Error: " + event.message);
         }
 
-        private function onConnection(event:ConnectionEvent):void
+        private function onConnection(event:ConnectionSFSEvent):void
         {
             if (connection.connected)
             {

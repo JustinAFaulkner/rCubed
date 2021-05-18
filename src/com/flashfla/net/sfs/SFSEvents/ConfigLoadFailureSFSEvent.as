@@ -1,6 +1,5 @@
 package com.flashfla.net.sfs.SFSEvents
 {
-
     import com.flashfla.net.sfs.TypedSFSEvent;
     import com.smartfoxserver.v2.core.SFSEvent;
 
@@ -8,10 +7,9 @@ package com.flashfla.net.sfs.SFSEvents
     {
         public var message:String;
 
-        public function ConfigLoadFailureSFSEvent(params:Object)
+        public function ConfigLoadFailureSFSEvent()
         {
-            super(SFSEvent.onConfigLoadFailure);
-            message = params.message;
+            super(SFSEvent.CONFIG_LOAD_FAILURE);
         }
     }
 }
