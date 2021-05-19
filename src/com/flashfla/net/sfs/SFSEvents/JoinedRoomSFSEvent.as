@@ -13,7 +13,7 @@ package com.flashfla.net.sfs.SFSEvents
 
         public function JoinedRoomSFSEvent(params:Object)
         {
-            super(SFSEvent.onJoinRoom);
+            super(SFSEvent.ROOM_JOIN);
 
             room = params.room;
             users = params.users

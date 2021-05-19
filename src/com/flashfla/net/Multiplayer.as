@@ -11,7 +11,7 @@ package com.flashfla.net
     import com.smartfoxserver.v2.SmartFox
     import com.smartfoxserver.v2.core.SFSEvent
 
-    import com.flashfla.net.events.ConnectionEvent;
+    import com.flashfla.net.events.ConnectionSFSEvent;
     import com.flashfla.net.events.LoginEvent;
     import com.flashfla.net.events.ErrorEvent;
     import com.flashfla.net.events.ServerMessageEvent;
@@ -827,7 +827,7 @@ package com.flashfla.net
 
         private function eventConnection():void
         {
-            dispatchEvent(new ConnectionEvent());
+            dispatchEvent(new ConnectionSFSEvent());
         }
 
         private function eventLogin():void

@@ -10,6 +10,9 @@ package com.flashfla.net
     import com.flashfla.net.sfs.SFSEvents.ExtensionResponseSFSEvent;
     import classes.Room;
     import com.smartfoxserver.v2.entities.SFSRoom;
+    import com.smartfoxserver.v2.entities.invitation.InvitationReply;
+    import com.flashfla.net.sfs.SFSEvents.InvitationReplySFSEvent;
+    import com.flashfla.net.sfs.SFSEvents.LoginSFSEvent;
 
     public class SFS2XEventHandler extends EventDispatcher
     {
@@ -35,7 +38,7 @@ package com.flashfla.net
             this.sfs.addEventListener(SFSEvent.CONNECTION_RETRY, handleConnectionRetry);
             this.sfs.addEventListener(SFSEvent.CRYPTO_INIT, handleCryptoInit);
             this.sfs.addEventListener(SFSEvent.EXTENSION_RESPONSE, handleExtensionResponse, USE_CAPTURE, PRIORITY_VALUE);
-            this.sfs.addEventListener(SFSEvent.HANDSHAKE, handleHandleshake);
+            //this.sfs.addEventListener(SFSEvent.HANDSHAKE, handleHandleshake); // This event is missing from the API docs.
             this.sfs.addEventListener(SFSEvent.INVITATION, handleInvitation);
             this.sfs.addEventListener(SFSEvent.INVITATION_REPLY, handleInvitationReply);
             this.sfs.addEventListener(SFSEvent.INVITATION_REPLY_ERROR, handleInvitationReplyError);
@@ -141,30 +144,37 @@ package com.flashfla.net
 
         private function handleHandleshake(event:Object):void
         {
+            // TODO: Missing from API documentation.
         }
 
         private function handleInvitation(event:SFSEvent):void
         {
+            this.dispatchEvent(new InvitationSFSEvent(event.params));
         }
 
         private function handleInvitationReply(event:SFSEvent):void
         {
+            this.dispatchEvent(new InvitationReplySFSEvent(event.params));
         }
 
         private function handleInvitationReplyError(event:SFSEvent):void
         {
+            this.dispatchEvent(new InvitationReplyErrorSFSEvent(event.params));
         }
 
         private function handleLogin(event:SFSEvent):void
         {
+            this.dispatchEvent(new LoginSFSEvent(event.params));
         }
 
         private function handleLoginError(event:SFSEvent):void
         {
+            this.dispatchEvent(new LoginErrorSFSEvent(event.params));
         }
 
         private function handleLogout(event:SFSEvent):void
         {
+            this.dispatchEvent(new LogoutSFSEvent());
         }
 
         private function handleMMOItemVariablesUpdate(event:SFSEvent):void
