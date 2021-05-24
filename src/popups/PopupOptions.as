@@ -56,6 +56,7 @@ package popups
     import menu.MainMenu;
     import menu.MenuPanel;
     import menu.MenuSongSelection;
+    import com.flashfla.net.MultiplayerUser;
 
     public class PopupOptions extends MenuPanel
     {
@@ -285,10 +286,10 @@ package popups
             fakeSpectator.siteId = 0;
 
             var fakeMP1:Multiplayer = new Multiplayer();
-            fakeMP1.currentUser = fakePlayer1;
+            fakeMP1.currentUser = new MultiplayerUser(fakePlayer1, null);
 
             var fakeMP2:Multiplayer = new Multiplayer();
-            fakeMP1.currentUser = fakeSpectator;
+            fakeMP1.currentUser = new MultiplayerUser(fakeSpectator, null);
 
             //- Editor - MP
             var mpEditorRoom:Room = new Room(0);

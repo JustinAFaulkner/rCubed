@@ -1,7 +1,8 @@
 package com.flashfla.net.sfs.SFSEvents
 {
     import com.flashfla.net.sfs.TypedSFSEvent;
-    import com.flashfla.net.Multiplayer;
+    import com.smartfoxserver.v2.core.SFSEvent;
+    import flash.events.Event;
 
     public class ConnectionSFSEvent extends TypedSFSEvent
     {
@@ -9,9 +10,14 @@ package com.flashfla.net.sfs.SFSEvents
 
         public function ConnectionSFSEvent(params:Object)
         {
-            super(Multiplayer.EVENT_CONNECTION);
+            super(SFSEvent.CONNECTION);
 
             this.success = params.success;
+        }
+
+        public override function clone():Event
+        {
+            return new ConnectionSFSEvent({success: this.success});
         }
     }
 }

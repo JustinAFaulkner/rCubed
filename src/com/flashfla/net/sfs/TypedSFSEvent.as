@@ -4,9 +4,17 @@ package com.flashfla.net.sfs
 
     public class TypedSFSEvent extends Event
     {
+        private const BUBBLES:Boolean = true;
+        private const CANCELLABLE:Boolean = false;
+
         public function TypedSFSEvent(type:String)
         {
-            super(type);
+            super(type, BUBBLES, CANCELLABLE);
+        }
+
+        public override function clone():Event
+        {
+            return new TypedSFSEvent(type);
         }
     }
 }

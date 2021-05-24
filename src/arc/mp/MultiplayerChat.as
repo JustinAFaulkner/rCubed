@@ -25,6 +25,7 @@ package arc.mp
     import classes.User;
     import classes.Gameplay;
     import com.flashfla.utils.StringUtil;
+    import com.flashfla.net.MultiplayerUser;
 
     public class MultiplayerChat extends Component
     {
@@ -54,166 +55,166 @@ package arc.mp
             controlChat.html = true;
             addChild(controlChat);
 
-            controlInput = new InputText();
-            controlInput.addEventListener(KeyboardEvent.KEY_DOWN, onInputTextKeyDown);
-            addChild(controlInput);
+            // controlInput = new InputText();
+            // controlInput.addEventListener(KeyboardEvent.KEY_DOWN, onInputTextKeyDown);
+            // addChild(controlInput);
 
-            connection.addEventListener(Multiplayer.EVENT_SERVER_MESSAGE, onServerMessageEvent);
-            connection.addEventListener(Multiplayer.EVENT_XT_RESPONSE, onExtensionResponseEvent);
-            connection.addEventListener(Multiplayer.EVENT_MESSAGE, onMessageEvent);
-            connection.addEventListener(Multiplayer.EVENT_ROOM_USER, onRoomUserEvent);
-            connection.addEventListener(Multiplayer.EVENT_CONNECTION, onConnectionEvent);
-            connection.addEventListener(Multiplayer.EVENT_LOGIN, onLoginEvent);
-            connection.addEventListener(Multiplayer.EVENT_ROOM_JOINED, onRoomJoinedEvent);
-            connection.addEventListener(Multiplayer.EVENT_GAME_RESULTS, onGameResultsEvent);
+            // connection.addEventListener(Multiplayer.EVENT_SERVER_MESSAGE, onServerMessageEvent);
+            // connection.addEventListener(Multiplayer.EVENT_XT_RESPONSE, onExtensionResponseEvent);
+            // connection.addEventListener(Multiplayer.EVENT_MESSAGE, onMessageEvent);
+            // connection.addEventListener(Multiplayer.EVENT_ROOM_USER, onRoomUserEvent);
+            // connection.addEventListener(Multiplayer.EVENT_CONNECTION, onConnectionEvent);
+            // connection.addEventListener(Multiplayer.EVENT_LOGIN, onLoginEvent);
+            // connection.addEventListener(Multiplayer.EVENT_ROOM_JOINED, onRoomJoinedEvent);
+            // connection.addEventListener(Multiplayer.EVENT_GAME_RESULTS, onGameResultsEvent);
 
-            GlobalVariables.instance.gameMain.addEventListener(Main.EVENT_PANEL_SWITCHED, checkRedraw);
+            // GlobalVariables.instance.gameMain.addEventListener(Main.EVENT_PANEL_SWITCHED, checkRedraw);
 
-            buildContextMenu();
+            // buildContextMenu();
 
-            resize();
+            // resize();
         }
 
-        private function onInputTextKeyDown(event:KeyboardEvent):void
-        {
-            if (event.keyCode == Keyboard.ENTER)
-            {
-                connection.sendMessage(room, controlInput.text);
-                controlInput.text = "";
-            }
-            event.stopPropagation();
-        }
+        // private function onInputTextKeyDown(event:KeyboardEvent):void
+        // {
+        //     if (event.keyCode == Keyboard.ENTER)
+        //     {
+        //         connection.sendMessage(room, controlInput.text);
+        //         controlInput.text = "";
+        //     }
+        //     event.stopPropagation();
+        // }
 
-        private function onServerMessageEvent(event:ServerMessageEvent):void
-        {
-            textAreaAddLine(textFormatServerMessage(event.user, event.message));
-        }
+        // private function onServerMessageEvent(event:ServerMessageEvent):void
+        // {
+        //     textAreaAddLine(textFormatServerMessage(event.user, event.message));
+        // }
 
-        private function onExtensionResponseEvent(event:ExtensionResponseEvent):void
-        {
-            //textAreaAddLine(textFormatServerMessage(event.params.user, event.params.message));
-            var data:Object = event.data;
-            if (data.rid == room)
-            {
-                if (data._cmd == "html_message")
-                {
-                    textAreaAddLine(textFormatUserName(data.uid, ": ") + data.m);
-                }
-            }
-        }
+        // private function onExtensionResponseEvent(event:ExtensionResponseEvent):void
+        // {
+        //     //textAreaAddLine(textFormatServerMessage(event.params.user, event.params.message));
+        //     var data:Object = event.data;
+        //     if (data.rid == room)
+        //     {
+        //         if (data._cmd == "html_message")
+        //         {
+        //             textAreaAddLine(textFormatUserName(data.uid, ": ") + data.m);
+        //         }
+        //     }
+        // }
 
-        private function onMessageEvent(event:MessageEvent):void
-        {
-            if (event.msgType == Multiplayer.MESSAGE_PUBLIC)
-            {
-                if (event.room == room)
-                    textAreaAddLine(textFormatMessage(event.user, event.message));
-            }
-            else if (event.room == null || event.room == room)
-                textAreaAddLine(textFormatPrivateMessageIn(event.user, event.message));
-        }
+        // private function onMessageEvent(event:MessageEvent):void
+        // {
+        //     if (event.msgType == Multiplayer.MESSAGE_PUBLIC)
+        //     {
+        //         if (event.room == room)
+        //             textAreaAddLine(textFormatMessage(event.user, event.message));
+        //     }
+        //     else if (event.room == null || event.room == room)
+        //         textAreaAddLine(textFormatPrivateMessageIn(event.user, event.message));
+        // }
 
-        private function onRoomUserEvent(event:RoomUserEvent):void
-        {
-            // Broadcast join/left message in rooms, do not broadcast in lobby
-            // Add "&& event.params.user.room != null" to omit "has left" messages
-            if (room != null && room.name != "Lobby" && event.room == room)
-                textAreaAddLine(textFormatUser(event.user, room.getUser(event.user.id) != null));
-        }
+        // private function onRoomUserEvent(event:RoomUserEvent):void
+        // {
+        //     // Broadcast join/left message in rooms, do not broadcast in lobby
+        //     // Add "&& event.params.user.room != null" to omit "has left" messages
+        //     if (room != null && room.name != "Lobby" && event.room == room)
+        //         textAreaAddLine(textFormatUser(event.user, room.getUser(event.user.id) != null));
+        // }
 
-        private function onConnectionEvent(event:ConnectionSFSEvent):void
-        {
-            if (!connection.connected)
-                textAreaAddLine(textFormatDisconnect());
-        }
+        // private function onConnectionEvent(event:ConnectionSFSEvent):void
+        // {
+        //     if (!connection.connected)
+        //         textAreaAddLine(textFormatDisconnect());
+        // }
 
-        private function onLoginEvent(event:LoginEvent):void
-        {
-            buildContextMenu();
-        }
+        // private function onLoginEvent(event:LoginEvent):void
+        // {
+        //     buildContextMenu();
+        // }
 
-        private function onRoomJoinedEvent(event:RoomJoinedEvent):void
-        {
-            if (event.room == room)
-                textAreaAddLine(textFormatJoin(room));
-        }
+        // private function onRoomJoinedEvent(event:RoomJoinedEvent):void
+        // {
+        //     if (event.room == room)
+        //         textAreaAddLine(textFormatJoin(room));
+        // }
 
-        private function onGameResultsEvent(event:GameResultsEvent):void
-        {
-            if (event.room == room)
-                textAreaAddLine(textFormatGameResults(room));
-        }
+        // private function onGameResultsEvent(event:GameResultsEvent):void
+        // {
+        //     if (event.room == room)
+        //         textAreaAddLine(textFormatGameResults(room));
+        // }
 
-        private function checkRedraw(event:Event):void
-        {
-            canRedraw = (GlobalVariables.instance.gameMain.activePanelName == Main.GAME_MENU_PANEL);
-            redraw()
-        }
+        // private function checkRedraw(event:Event):void
+        // {
+        //     canRedraw = (GlobalVariables.instance.gameMain.activePanelName == Main.GAME_MENU_PANEL);
+        //     redraw()
+        // }
 
-        public function resize():void
-        {
-            controlInput.move(0, height - controlInput.height);
-            controlInput.setSize(width, controlInput.height);
+        // public function resize():void
+        // {
+        //     controlInput.move(0, height - controlInput.height);
+        //     controlInput.setSize(width, controlInput.height);
 
-            controlChat.move(0, 0);
-            controlChat.setSize(width, controlInput.y);
-        }
+        //     controlChat.move(0, 0);
+        //     controlChat.setSize(width, controlInput.y);
+        // }
 
-        public function focus():void
-        {
-            if (stage)
-            {
-                stage.focus = controlInput.textField;
-                controlInput.textField.setSelection(0, 0);
-            }
-        }
+        // public function focus():void
+        // {
+        //     if (stage)
+        //     {
+        //         stage.focus = controlInput.textField;
+        //         controlInput.textField.setSelection(0, 0);
+        //     }
+        // }
 
-        public function buildContextMenu():void
-        {
-            if (connection.currentUser.isModerator)
-            {
-                var inputMenu:ContextMenu = new ContextMenu();
-                var inputBroadcast:ContextMenuItem = new ContextMenuItem("Broadcast Server Message");
-                inputBroadcast.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, function(event:ContextMenuEvent):void
-                {
-                    if (controlInput.text.length > 0)
-                    {
-                        connection.sendServerMessage(controlInput.text);
-                        //textAreaAddLine(textFormatServerMessage(room.user, controlInput.text));
-                        controlInput.text = "";
-                    }
-                });
-                inputMenu.customItems.push(inputBroadcast);
-                inputBroadcast = new ContextMenuItem("Broadcast Room Message");
-                inputBroadcast.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, function(event:ContextMenuEvent):void
-                {
-                    if (controlInput.text.length > 0)
-                    {
-                        connection.sendServerMessage(controlInput.text, room);
-                        //textAreaAddLine(textFormatServerMessage(room.user, controlInput.text));
-                        controlInput.text = "";
-                    }
-                });
-                inputMenu.customItems.push(inputBroadcast);
-                if (connection.currentUser.isAdmin)
-                {
-                    inputBroadcast = new ContextMenuItem("Send HTML");
-                    inputBroadcast.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, function(event:ContextMenuEvent):void
-                    {
-                        if (controlInput.text.length > 0)
-                        {
-                            connection.sendHTMLMessage(controlInput.text, room);
-                            controlInput.text = "";
-                        }
-                    });
-                    inputMenu.customItems.push(inputBroadcast);
-                }
-                inputMenu.clipboardMenu = true;
-                controlInput.contextMenu = controlInput.textField.contextMenu = inputMenu;
-            }
-            else
-                controlInput.contextMenu = controlInput.textField.contextMenu = null;
-        }
+        // public function buildContextMenu():void
+        // {
+        //     if (connection.currentUser.isModerator)
+        //     {
+        //         var inputMenu:ContextMenu = new ContextMenu();
+        //         var inputBroadcast:ContextMenuItem = new ContextMenuItem("Broadcast Server Message");
+        //         inputBroadcast.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, function(event:ContextMenuEvent):void
+        //         {
+        //             if (controlInput.text.length > 0)
+        //             {
+        //                 connection.sendServerMessage(controlInput.text);
+        //                 //textAreaAddLine(textFormatServerMessage(room.user, controlInput.text));
+        //                 controlInput.text = "";
+        //             }
+        //         });
+        //         inputMenu.customItems.push(inputBroadcast);
+        //         inputBroadcast = new ContextMenuItem("Broadcast Room Message");
+        //         inputBroadcast.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, function(event:ContextMenuEvent):void
+        //         {
+        //             if (controlInput.text.length > 0)
+        //             {
+        //                 connection.sendServerMessage(controlInput.text, room);
+        //                 //textAreaAddLine(textFormatServerMessage(room.user, controlInput.text));
+        //                 controlInput.text = "";
+        //             }
+        //         });
+        //         inputMenu.customItems.push(inputBroadcast);
+        //         if (connection.currentUser.isAdmin)
+        //         {
+        //             inputBroadcast = new ContextMenuItem("Send HTML");
+        //             inputBroadcast.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, function(event:ContextMenuEvent):void
+        //             {
+        //                 if (controlInput.text.length > 0)
+        //                 {
+        //                     connection.sendHTMLMessage(controlInput.text, room);
+        //                     controlInput.text = "";
+        //                 }
+        //             });
+        //             inputMenu.customItems.push(inputBroadcast);
+        //         }
+        //         inputMenu.clipboardMenu = true;
+        //         controlInput.contextMenu = controlInput.textField.contextMenu = inputMenu;
+        //     }
+        //     else
+        //         controlInput.contextMenu = controlInput.textField.contextMenu = null;
+        // }
 
         public function textAreaAddLine(message:String):void
         {
@@ -294,7 +295,7 @@ package arc.mp
             return textFormatColour("Lv." + level + " (" + title + ") ", "#" + dulledColour);
         }
 
-        public static function textFormatServerMessage(user:User, message:String):String
+        public static function textFormatServerMessage(user:MultiplayerUser, message:String):String
         {
             return textFormatColour(textFormatBold(textEscape("* Server Notice" + (user != null ? (" [" + user.name + "]") : "") + ": " + message)), "#901000");
         }

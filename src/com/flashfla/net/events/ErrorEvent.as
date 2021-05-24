@@ -6,12 +6,18 @@ package com.flashfla.net.events
 
     public class ErrorEvent extends TypedSFSEvent
     {
-        public var message:String;
+        private var _message:String;
 
-        public function ErrorEvent(params:Object)
+        public function get message():String
+        {
+            return _message;
+        }
+
+        public function ErrorEvent(message:String)
         {
             super(Multiplayer.EVENT_ERROR);
-            message = params.message;
+
+            this._message = message;
         }
     }
 }

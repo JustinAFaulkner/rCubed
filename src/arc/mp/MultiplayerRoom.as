@@ -34,136 +34,131 @@ package arc.mp
         {
             super(parent);
 
-            this.room = room;
-            connection = room.connection;
-            title = room.name;
+            // this.room = room;
+            // connection = room.connection;
+            // title = room.name;
 
-            // Player 1 display
-            controlPlayer1 = new MultiplayerPlayer(this, room, 1);
-            controlPlayer1.move(0, 0);
+            // // Player 1 display
+            // controlPlayer1 = new MultiplayerPlayer(this, room, 1);
+            // controlPlayer1.move(0, 0);
 
-            // Player 2 display
-            controlPlayer2 = new MultiplayerPlayer(this, room, 2);
-            controlPlayer2.move(controlPlayer1.x + controlPlayer1.width, controlPlayer1.y);
+            // // Player 2 display
+            // controlPlayer2 = new MultiplayerPlayer(this, room, 2);
+            // controlPlayer2.move(controlPlayer1.x + controlPlayer1.width, controlPlayer1.y);
 
-            // Room chat display
-            controlChat = new MultiplayerChat(this, room);
-            controlChat.move(controlPlayer1.x, controlPlayer1.y + controlPlayer1.height);
-            controlChat.setSize(controlPlayer2.x + controlPlayer2.width - controlPlayer1.x, controlPlayer1.height * 1.4);
-            controlChat.resize();
-            controlChat.textAreaAddLine(MultiplayerChat.textFormatJoin(room));
+            // // Room chat display
+            // controlChat = new MultiplayerChat(this, room);
+            // controlChat.move(controlPlayer1.x, controlPlayer1.y + controlPlayer1.height);
+            // controlChat.setSize(controlPlayer2.x + controlPlayer2.width - controlPlayer1.x, controlPlayer1.height * 1.4);
+            // controlChat.resize();
+            // controlChat.textAreaAddLine(MultiplayerChat.textFormatJoin(room));
 
-            // Room user list display
-            controlUsers = new MultiplayerUsers(this, room, parent, controlChat);
-            controlUsers.move(controlChat.x + controlChat.width, controlPlayer1.y);
-            controlUsers.setSize(controlUsers.width - 10, controlChat.y + controlChat.height - controlPlayer1.y - controlChat.controlInput.height);
-            controlUsers.resize();
-            controlUsers.updateUsers();
+            // // Room user list display
+            // controlUsers = new MultiplayerUsers(this, room, parent, controlChat);
+            // controlUsers.move(controlChat.x + controlChat.width, controlPlayer1.y);
+            // controlUsers.setSize(controlUsers.width - 10, controlChat.y + controlChat.height - controlPlayer1.y - controlChat.controlInput.height);
+            // controlUsers.resize();
+            // controlUsers.updateUsers();
 
-            // Player state button
-            controlSpectate = new PushButton();
-            controlSpectate.label = room.isPlayer(currentUser) ? "Spectate" : (room.playerCount < 2 ? "Join Game" : "Start Spectating");
-            controlSpectate.setSize(controlUsers.width, controlChat.controlInput.height);
-            controlSpectate.move(controlUsers.x, controlUsers.y + controlUsers.height);
-            controlSpectate.addEventListener(MouseEvent.CLICK, onStateButtonClick);
-            addChild(controlSpectate);
+            // // Player state button
+            // controlSpectate = new PushButton();
+            // controlSpectate.label = room.isPlayer(currentUser) ? "Spectate" : (room.playerCount < 2 ? "Join Game" : "Start Spectating");
+            // controlSpectate.setSize(controlUsers.width, controlChat.controlInput.height);
+            // controlSpectate.move(controlUsers.x, controlUsers.y + controlUsers.height);
+            // controlSpectate.addEventListener(MouseEvent.CLICK, onStateButtonClick);
+            // addChild(controlSpectate);
 
-            // Add listeners to update this display
-            connection.addEventListener(Multiplayer.EVENT_GAME_START, onGameStart);
-            connection.addEventListener(Multiplayer.EVENT_ROOM_USER_STATUS, onRoomUserStatus);
-            connection.addEventListener(Multiplayer.EVENT_ROOM_USER, onRoomUser);
-            connection.addEventListener(Multiplayer.EVENT_CONNECTION, onConnectionUpdate);
-            connection.addEventListener(Multiplayer.EVENT_ROOM_LEFT, onLeftRoom);
+            // // Add listeners to update this display
+            // connection.addEventListener(Multiplayer.EVENT_GAME_START, onGameStart);
+            // connection.addEventListener(Multiplayer.EVENT_ROOM_USER_STATUS, onRoomUserStatus);
+            // connection.addEventListener(Multiplayer.EVENT_ROOM_USER, onRoomUser);
+            // connection.addEventListener(Multiplayer.EVENT_CONNECTION, onConnectionUpdate);
+            // connection.addEventListener(Multiplayer.EVENT_ROOM_LEFT, onLeftRoom);
 
-            // Set display layout and properties
-            hasCloseButton = true;
-            hasMinimizeButton = true;
-            setSize(controlUsers.x + controlUsers.width, titleBar.height + controlChat.y + controlChat.height);
-            move(parent.width / 2 - width / 2, parent.height / 2 - height / 2);
-            controlChat.focus();
+            // // Set display layout and properties
+            // hasCloseButton = true;
+            // hasMinimizeButton = true;
+            // setSize(controlUsers.x + controlUsers.width, titleBar.height + controlChat.y + controlChat.height);
+            // move(parent.width / 2 - width / 2, parent.height / 2 - height / 2);
+            // controlChat.focus();
 
-            // Listener for closing the display with the top right Close button
-            addEventListener(Event.CLOSE, onCloseRoom);
+            // // Listener for closing the display with the top right Close button
+            // addEventListener(Event.CLOSE, onCloseRoom);
         }
 
-        public function get currentUser():User
-        {
-            return connection.currentUser;
-        }
+        // public function redraw():void
+        // {
+        //     controlPlayer1.redraw(true);
+        //     controlPlayer2.redraw(true);
+        //     controlChat.redraw(true);
+        // }
 
-        public function redraw():void
-        {
-            controlPlayer1.redraw(true);
-            controlPlayer2.redraw(true);
-            controlChat.redraw(true);
-        }
+        // private function onCloseRoom(event:Event):void
+        // {
+        //     if (room == null || !room.hasUser(currentUser))
+        //     {
+        //         parent.removeChild(this);
+        //         return;
+        //     }
 
-        private function onCloseRoom(event:Event):void
-        {
-            if (room == null || !room.hasUser(currentUser))
-            {
-                parent.removeChild(this);
-                return;
-            }
+        //     var inGame:Boolean = false;
+        //     for each (var _room:Room in connection.rooms)
+        //     {
+        //         if (_room.hasUser(currentUser) && _room != room)
+        //             inGame = true;
+        //     }
+        //     if (inGame)
+        //         connection.leaveRoom(room)
+        //     else
+        //     {
+        //         connection.joinLobby();
+        //         connection.leaveRoom(room)
+        //     }
+        // }
 
-            var inGame:Boolean = false;
-            for each (var _room:Room in connection.rooms)
-            {
-                if (_room.hasUser(currentUser) && _room != room)
-                    inGame = true;
-            }
-            if (inGame)
-                connection.leaveRoom(room)
-            else
-            {
-                connection.joinLobby();
-                connection.leaveRoom(room)
-            }
-        }
+        // private function onStateButtonClick(event:MouseEvent):void
+        // {
+        //     if (connection.switchRole(room))
+        //         updateRoomDisplay();
+        // }
 
-        private function onStateButtonClick(event:MouseEvent):void
-        {
-            if (connection.switchRole(room))
-                updateRoomDisplay();
-        }
+        // private function onGameStart(event:GameStartEvent):void
+        // {
+        //     // If the current room has started gameplay, enter spectating view
+        //     if (event.room == room && GlobalVariables.instance.gameMain.activePanel is MainMenu)
+        //         MultiplayerSingleton.getInstance().spectateGame(room);
+        // }
 
-        private function onGameStart(event:GameStartEvent):void
-        {
-            // If the current room has started gameplay, enter spectating view
-            if (event.room == room && GlobalVariables.instance.gameMain.activePanel is MainMenu)
-                MultiplayerSingleton.getInstance().spectateGame(room);
-        }
+        // private function onConnectionUpdate(event:ConnectionSFSEvent):void
+        // {
+        //     if (!connection.connected)
+        //         room = null;
+        // }
 
-        private function onConnectionUpdate(event:ConnectionSFSEvent):void
-        {
-            if (!connection.connected)
-                room = null;
-        }
+        // private function onLeftRoom(event:RoomLeftEvent):void
+        // {
+        //     if (event.room == room)
+        //     {
+        //         parent.removeChild(this);
+        //         room = null;
+        //     }
+        // }
 
-        private function onLeftRoom(event:RoomLeftEvent):void
-        {
-            if (event.room == room)
-            {
-                parent.removeChild(this);
-                room = null;
-            }
-        }
+        // private function onRoomUserStatus(event:RoomUserStatusEvent):void
+        // {
+        //     if (event.room == room)
+        //         updateRoomDisplay();
+        // }
 
-        private function onRoomUserStatus(event:RoomUserStatusEvent):void
-        {
-            if (event.room == room)
-                updateRoomDisplay();
-        }
+        // private function onRoomUser(event:RoomUserEvent):void
+        // {
+        //     if (event.room == room)
+        //         updateRoomDisplay();
+        // }
 
-        private function onRoomUser(event:RoomUserEvent):void
-        {
-            if (event.room == room)
-                updateRoomDisplay();
-        }
-
-        private function updateRoomDisplay():void
-        {
-            controlSpectate.label = room.isPlayer(currentUser) ? "Spectate" : "Join Game";
-        }
+        // private function updateRoomDisplay():void
+        // {
+        //     controlSpectate.label = room.isPlayer(currentUser) ? "Spectate" : "Join Game";
+        // }
     }
 }

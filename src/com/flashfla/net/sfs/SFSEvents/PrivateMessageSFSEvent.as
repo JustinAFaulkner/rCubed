@@ -7,17 +7,34 @@ package com.flashfla.net.sfs.SFSEvents
 
     public class PrivateMessageSFSEvent extends TypedSFSEvent
     {
-        private var sender:User;
-        private var message:String;
-        private var data:ISFSObject;
+        private var _sender:User;
+
+        public function get sender():User
+        {
+            return _sender;
+        }
+
+        private var _message:String;
+
+        public function get message():String
+        {
+            return _message;
+        }
+
+        private var _data:ISFSObject;
+
+        public function get data():ISFSObject
+        {
+            return _data;
+        }
 
         public function PrivateMessageSFSEvent(params:Object)
         {
             super(SFSEvent.PRIVATE_MESSAGE);
 
-            this.sender = params.sender;
-            this.message = params.message;
-            this.data = params.data;
+            this._sender = params.sender;
+            this._message = params.message;
+            this._data = params.data;
         }
     }
 }

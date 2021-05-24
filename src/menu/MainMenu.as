@@ -115,7 +115,7 @@ package menu
                 }
             }
 
-            MultiplayerSingleton.getInstance().gameplayCleanup();
+            //MultiplayerSingleton.getInstance().gameplayCleanup();
 
             //- Add Main Panel to Stage
             var targetMenu:String = "";

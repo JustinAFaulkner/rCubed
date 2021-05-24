@@ -795,7 +795,7 @@ package menu
             if (mpUpdate && options.activeSongId != -1)
             {
                 var songInfo:SongInfo = _playlist.getSongInfo(options.activeSongId);
-                _mp.gameplayPicking(songInfo);
+                    //_mp.gameplayPicking(songInfo);
             }
         }
 
@@ -820,10 +820,14 @@ package menu
                 {
                     if (!tarSongItem.isLocked && options.infoTab == TAB_PLAYLIST)
                     {
-                        if (_mp.gameplayHasOpponent())
-                            multiplayerLoad(tarSongItem.level);
-                        else
-                            playSong(tarSongItem.level);
+                        // if (_mp.gameplayHasOpponent())
+                        // {
+                        //     multiplayerLoad(tarSongItem.level);
+                        // }
+                        // else
+                        // {
+                        //     playSong(tarSongItem.level);
+                        // }
                     }
                     else
                     {
@@ -1297,12 +1301,12 @@ package menu
                 songOptionsButton.setHoverText(_lang.string("song_selection_song_panel_hover_song_options"));
 
                 buttonWidth = 164;
-                if (_mp.gameplayCanPick())
-                {
-                    buttonWidth = 79.5;
-                    var songLoadButton:BoxButton = new BoxButton(infoBox, 89.5, 288, 79.5, 27, _lang.string("song_selection_song_panel_mp_load"), 14, songLoadClick);
-                    songLoadButton.level = songInfo.level;
-                }
+                // if (_mp.gameplayCanPick())
+                // {
+                //     buttonWidth = 79.5;
+                //     var songLoadButton:BoxButton = new BoxButton(infoBox, 89.5, 288, 79.5, 27, _lang.string("song_selection_song_panel_mp_load"), 14, songLoadClick);
+                //     songLoadButton.level = songInfo.level;
+                // }
                 var songStartButton:BoxButton = new BoxButton(infoBox, 5, 288, buttonWidth, 27, _lang.string("song_selection_song_panel_play"), 14, songStartClick);
                 songStartButton.level = songInfo.level;
             }
@@ -1389,8 +1393,8 @@ package menu
             if (level < 0)
                 return;
 
-            _mp.gameplayPicking(_playlist.getSongInfo(level));
-            _mp.gameplayLoading();
+            // _mp.gameplayPicking(_playlist.getSongInfo(level));
+            // _mp.gameplayLoading();
             switchTo(MainMenu.MENU_MULTIPLAYER);
         }
 
@@ -1792,11 +1796,15 @@ package menu
                     });
                     if (randomList.length > 0)
                     {
-                        var random:Object = randomList[int(Math.floor(Math.random() * randomList.length))];
-                        if (_mp.gameplayHasOpponent())
-                            multiplayerLoad(random.level);
-                        else
-                            playSong(random.level);
+                        // var random:Object = randomList[int(Math.floor(Math.random() * randomList.length))];
+                        // if (_mp.gameplayHasOpponent())
+                        // {
+                        //     multiplayerLoad(random.level);
+                        // }
+                        // else
+                        // {
+                        //     playSong(random.level);
+                        // }
                         return;
                     }
                     else
@@ -1878,10 +1886,14 @@ package menu
                 case Keyboard.ENTER:
                     if (!((stage.focus is PushButton) || (stage.focus is TextField)) && options.activeSongId >= 0)
                     {
-                        if (_mp.gameplayHasOpponent())
-                            multiplayerLoad(options.activeSongId);
-                        else
-                            playSong(options.activeSongId);
+                        // if (_mp.gameplayHasOpponent())
+                        // {
+                        //     multiplayerLoad(options.activeSongId);
+                        // }
+                        // else
+                        // {
+                        //     playSong(options.activeSongId);
+                        // }
                     }
                     return;
 

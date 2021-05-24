@@ -174,11 +174,11 @@ package game
             navHighscores = new BoxButton(buttonMenu, 0, 0, 170, 40, _lang.string("game_results_menu_highscores"), 17, eventHandler);
             buttonMenuItems.push(navHighscores);
 
-            if (!_mp.gameplayPlayingStatus())
-            {
-                navReplay = new BoxButton(buttonMenu, 0, 0, 170, 40, _lang.string("game_results_menu_replay_song"), 17, eventHandler);
-                buttonMenuItems.push(navReplay);
-            }
+            // if (!_mp.gameplayPlayingStatus())
+            // {
+            //     navReplay = new BoxButton(buttonMenu, 0, 0, 170, 40, _lang.string("game_results_menu_replay_song"), 17, eventHandler);
+            //     buttonMenuItems.push(navReplay);
+            // }
 
             if (!_gvars.flashvars.replay && !_gvars.flashvars.preview_file)
             {
@@ -245,7 +245,7 @@ package game
             // Display Game Result
             displayGameResult(songResults.length > 1 ? -1 : 0);
 
-            _mp.gameplayResults(this, songResults);
+            //_mp.gameplayResults(this, songResults);
             _gvars.gameMain.displayPopupQueue();
         }
 
@@ -383,8 +383,10 @@ package game
                 navScreenShot.enabled = true;
 
             // Random Song Button
-            if (result.options.replay || result.is_preview || _mp.gameplayPlayingStatus())
-                navRandomSong.enabled = false;
+            // if (result.options.replay || result.is_preview || _mp.gameplayPlayingStatus())
+            // {
+            //     navRandomSong.enabled = false;
+            // }
 
             // Skill rating
             var song_weight:Number = SkillRating.getSongWeight(result);
@@ -672,28 +674,28 @@ package game
                 return;
 
             // Handle Key events and click in the same function
-            if (e.type == "keyDown" && !_mp.gameplayPlayingStatusResults())
-            {
-                target = null;
-                var keyCode:int = e.keyCode;
-                if ((keyCode == _gvars.playerUser.keyLeft || keyCode == Keyboard.LEFT) && navPrev.visible)
-                {
-                    target = navPrev;
-                }
-                else if ((keyCode == _gvars.playerUser.keyRight || keyCode == Keyboard.RIGHT) && navNext.visible)
-                {
-                    target = navNext;
-                }
-                else if (keyCode == _gvars.playerUser.keyRestart)
-                {
-                    target = navReplay;
-                }
-                else if (keyCode == _gvars.playerUser.keyQuit)
-                {
-                    target = navMenu;
-                    stage.removeEventListener(KeyboardEvent.KEY_DOWN, eventHandler);
-                }
-            }
+            // if (e.type == "keyDown" && !_mp.gameplayPlayingStatusResults())
+            // {
+            //     target = null;
+            //     var keyCode:int = e.keyCode;
+            //     if ((keyCode == _gvars.playerUser.keyLeft || keyCode == Keyboard.LEFT) && navPrev.visible)
+            //     {
+            //         target = navPrev;
+            //     }
+            //     else if ((keyCode == _gvars.playerUser.keyRight || keyCode == Keyboard.RIGHT) && navNext.visible)
+            //     {
+            //         target = navNext;
+            //     }
+            //     else if (keyCode == _gvars.playerUser.keyRestart)
+            //     {
+            //         target = navReplay;
+            //     }
+            //     else if (keyCode == _gvars.playerUser.keyQuit)
+            //     {
+            //         target = navMenu;
+            //         stage.removeEventListener(KeyboardEvent.KEY_DOWN, eventHandler);
+            //     }
+            // }
 
             if (!target)
                 return;

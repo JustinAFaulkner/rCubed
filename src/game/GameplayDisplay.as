@@ -338,7 +338,7 @@ package game
             // Setup MP Things
             if (options.mpRoom)
             {
-                MultiplayerSingleton.getInstance().gameplayPlaying(this);
+                //MultiplayerSingleton.getInstance().gameplayPlaying(this);
                 if (!options.isEditor)
                 {
                     options.singleplayer = false; // Back to multiplayer lobby
@@ -464,11 +464,11 @@ package game
             noteBox.position();
             this.addChild(noteBox);
 
-            if (!options.isEditor && MultiplayerSingleton.getInstance().connection.connected && !MultiplayerSingleton.getInstance().isInRoom())
-            {
-                var isInSoloMode:Boolean = true;
-                MultiplayerSingleton.getInstance().connection.disconnect(isInSoloMode);
-            }
+            // if (!options.isEditor && MultiplayerSingleton.getInstance().connection.connected && !MultiplayerSingleton.getInstance().isInRoom())
+            // {
+            //     var isInSoloMode:Boolean = true;
+            //     MultiplayerSingleton.getInstance().connection.disconnect(isInSoloMode);
+            // }
 
             /*
                if (false && !_gvars.tempFlags["key_hints"] && !options.multiplayer && !options.isEditor && !options.replay && !mpSpectate) {

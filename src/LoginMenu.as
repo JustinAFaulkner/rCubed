@@ -177,6 +177,8 @@ package
                 stage.focus = input_user.field;
                 input_user.field.setSelection(input_user.text.length, input_user.text.length);
             }
+
+            attemptLoginSession();
         }
 
 

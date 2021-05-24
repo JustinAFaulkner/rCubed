@@ -54,11 +54,6 @@ package arc.mp
             resize();
         }
 
-        public function get currentUser():User
-        {
-            return connection.currentUser
-        }
-
         public function resize():void
         {
             controlUsers.move(0, 0);
@@ -79,9 +74,11 @@ package arc.mp
         {
             function e_sendPM(message:String):void
             {
-                connection.sendPrivateMessage(user, message, room);
+                connection.sendPrivateMessage(message, user.id);
                 if (controlChat != null)
+                {
                     controlChat.textAreaAddLine(MultiplayerChat.textFormatPrivateMessageOut(user, message));
+                }
             }
             var user:User = controlUsers.selectedItem.data;
             new Prompt(owner, 320, "PM " + user.name, 100, "SEND", e_sendPM);
@@ -152,7 +149,9 @@ package arc.mp
                     {
                         connection.sendServerMessage(message, user);
                         if (controlChat != null)
-                            controlChat.textAreaAddLine(MultiplayerChat.textFormatServerMessage(currentUser, message));
+                        {
+                            controlChat.textAreaAddLine(MultiplayerChat.textFormatServerMessage(connection.currentUser, message));
+                        }
                     }
                     var item:Object = event.mouseTarget["data"];
 
@@ -171,7 +170,7 @@ package arc.mp
                         var minutes:Number = parseInt(minutesString);
                         if (!isNaN(minutes))
                         {
-                            connection.muteUser(user, minutes);
+                            //connection.muteUser(user, minutes);
                             if (controlChat != null)
                                 controlChat.textAreaAddLine(MultiplayerChat.textFormatModeratorMute(user, minutes));
                         }
@@ -188,7 +187,7 @@ package arc.mp
                         var minutes:Number = parseInt(minutesString);
                         if (!isNaN(minutes))
                         {
-                            connection.banUser(user, minutes);
+                            //connection.banUser(user, minutes);
                             if (controlChat != null)
                                 controlChat.textAreaAddLine(MultiplayerChat.textFormatModeratorBan(user, minutes));
                         }

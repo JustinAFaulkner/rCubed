@@ -8,7 +8,7 @@ package com.flashfla.net.sfs.SFSEvents
     public class UserVariableUpdateSFSEvent extends TypedSFSEvent
     {
         private var user:User;
-        private var changedVars:Room;
+        private var changedVars:Array;
 
         public function UserVariableUpdateSFSEvent(params:Object)
         {
