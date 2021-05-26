@@ -5,6 +5,7 @@ package com.flashfla.net.sfs.SFSEvents
     import com.smartfoxserver.v2.core.SFSEvent;
     import com.smartfoxserver.v2.entities.User;
     import com.smartfoxserver.v2.entities.data.ISFSObject;
+    import flash.events.Event;
 
     public class LoginSFSEvent extends TypedSFSEvent
     {
@@ -21,12 +22,17 @@ package com.flashfla.net.sfs.SFSEvents
             return _data;
         }
 
-        public function LoginSFSEvent(params:Object)
+        public function LoginSFSEvent(user:User, data:ISFSObject)
         {
             super(SFSEvent.LOGIN);
 
-            this._user = params.user;
-            this._data = params.data;
+            this._user = user;
+            this._data = data;
+        }
+
+        public override function clone():Event
+        {
+            return new LoginSFSEvent(this._user, this._data);
         }
     }
 }

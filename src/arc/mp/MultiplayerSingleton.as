@@ -11,18 +11,7 @@ package arc.mp
     import classes.chart.Song;
     import classes.replay.Replay;
     import com.flashfla.net.Multiplayer;
-    import com.flashfla.net.events.ConnectionSFSEvent;
     import com.flashfla.net.events.ErrorEvent;
-    import com.flashfla.net.events.GameResultsEvent;
-    import com.flashfla.net.events.GameStartEvent;
-    import com.flashfla.net.events.GameUpdateEvent;
-    import com.flashfla.net.events.LoginEvent;
-    import com.flashfla.net.events.MessageEvent;
-    import com.flashfla.net.events.RoomJoinedEvent;
-    import com.flashfla.net.events.RoomLeftEvent;
-    import com.flashfla.net.events.RoomListEvent;
-    import com.flashfla.net.events.RoomUserEvent;
-    import com.flashfla.net.events.RoomUserStatusEvent;
     import com.flashfla.utils.StringUtil;
     import flash.events.Event;
     import flash.events.TimerEvent;
@@ -38,6 +27,8 @@ package arc.mp
     import menu.MenuSongSelection;
     import com.flashfla.net.sfs.SFSEvents.ConnectionSFSEvent;
     import com.smartfoxserver.v2.core.SFSEvent;
+    import com.flashfla.net.sfs.SFSEvents.*;
+    import com.flashfla.net.sfs.SFSEvents.UserExitRoomSFSEvent;
 
     public class MultiplayerSingleton extends Object
     {
@@ -62,24 +53,34 @@ package arc.mp
         public static function getInstance():MultiplayerSingleton
         {
             if (instance == null)
+            {
                 instance = new MultiplayerSingleton();
+            }
+
             return instance;
         }
 
         public static function destroyInstance():void
         {
             if (instance && instance.connection && instance.connection.connected)
+            {
                 instance.connection.disconnect();
+            }
+
             instance = null;
         }
 
         public function getPanel(parent:MenuPanel):MultiplayerPanel
         {
             if (panel == null)
+            {
                 panel = new MultiplayerPanel(parent);
+            }
+
             panel.setParent(parent);
             panel.hideBackground(true);
             panel.setRoomsVisibility(true);
+
             return panel;
         }
 
@@ -92,15 +93,24 @@ package arc.mp
 
             connection = new Multiplayer();
 
-            // connection.addEventListener(Multiplayer.EVENT_ERROR, onError);
+            connection.addEventListener(Multiplayer.EVENT_ERROR, onError);
+
+            // Connection
             connection.addEventListener(SFSEvent.CONNECTION, onConnection);
-            // connection.addEventListener(Multiplayer.EVENT_LOGIN, onLogin);
+            connection.addEventListener(SFSEvent.LOGIN, onLogin);
+            connection.addEventListener(SFSEvent.LOGIN_ERROR, onLoginError);
+
+            // Rooms
             // connection.addEventListener(Multiplayer.EVENT_ROOM_LIST, onRoomList);
             // connection.addEventListener(Multiplayer.EVENT_ROOM_JOINED, onRoomJoined);
             // connection.addEventListener(Multiplayer.EVENT_ROOM_LEFT, onRoomLeft);
             // connection.addEventListener(Multiplayer.EVENT_ROOM_USER, onRoomUser);
             // connection.addEventListener(Multiplayer.EVENT_ROOM_USER_STATUS, onRoomUserStatus);
+
+            // Messages
             // connection.addEventListener(Multiplayer.EVENT_MESSAGE, onMessage);
+
+            // Extension Messages
             // connection.addEventListener(Multiplayer.EVENT_GAME_RESULTS, onGameResults);
             // connection.addEventListener(Multiplayer.EVENT_GAME_START, onGameStart);
         }
@@ -119,11 +129,17 @@ package arc.mp
             }
         }
 
-        // private function onLogin(event:LoginEvent):void
-        // {
-        //     if (!connection.currentUser.loggedIn)
-        //         connection.disconnect();
-        // }
+        private function onLogin(event:LoginSFSEvent):void
+        {
+            Alert.add("Welcome " + event.user.name + "!")
+        }
+
+        private function onLoginError(event:LoginErrorSFSEvent):void
+        {
+            Alert.add("MP Error:" + event.errorMessage)
+            trace("MP Error:" + event.errorMessage)
+            connection.disconnect();
+        }
 
         // private function onRoomList(event:RoomListEvent):void
         // {
@@ -148,10 +164,10 @@ package arc.mp
         //     }
         // }
 
-        // private function onRoomLeft(event:RoomLeftEvent):void
-        // {
-        //     currentRoom = null;
-        // }
+        private function onRoomLeft(event:UserExitRoomSFSEvent):void
+        {
+            currentRoom = null;
+        }
 
         // private function onRoomUser(event:RoomUserEvent):void
         // {

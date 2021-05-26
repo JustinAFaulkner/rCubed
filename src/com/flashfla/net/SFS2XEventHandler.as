@@ -10,7 +10,7 @@ package com.flashfla.net
     import com.flashfla.net.sfs.SFSEvents.ExtensionResponseSFSEvent;
     import classes.Room;
     import com.smartfoxserver.v2.entities.SFSRoom;
-    import com.smartfoxserver.v2.entities.invitation.InvitationReply;
+    import com.smartfoxserver.v2.entities.managers.*;
     import com.flashfla.net.sfs.SFSEvents.InvitationReplySFSEvent;
     import com.flashfla.net.sfs.SFSEvents.LoginSFSEvent;
     import com.flashfla.net.sfs.SFSEvents.PingPongSFSEvent;
@@ -46,6 +46,8 @@ package com.flashfla.net
     public class SFS2XEventHandler extends EventDispatcher
     {
         private var sfs:SmartFox;
+        private var roomManager:SFSRoomManager;
+        private var userManager:SFSUserManager;
 
         private const USE_CAPTURE:Boolean = true;
         private const PRIORITY_VALUE:int = int.MAX_VALUE - 10;
@@ -53,9 +55,11 @@ package com.flashfla.net
         // TODO: For the API for each implementation, see here:
         // TODO: http://docs2x.smartfoxserver.com/api-docs/asdoc/com/smartfoxserver/v2/core/SFSEvent.html
 
-        public function SFS2XEventHandler(sfs:SmartFox)
+        public function SFS2XEventHandler(sfs:SmartFox, roomManager:SFSRoomManager, userManager:SFSUserManager)
         {
             this.sfs = sfs;
+            this.roomManager = roomManager;
+            this.userManager = userManager;
 
             this.sfs.addEventListener(SFSEvent.ADMIN_MESSAGE, handleAdminMessage);
             this.sfs.addEventListener(SFSEvent.CONFIG_LOAD_FAILURE, handleConfigLoadFailure);
@@ -115,11 +119,7 @@ package com.flashfla.net
 
         private function handleAdminMessage(event:SFSEvent):void
         {
-            // TODO: This seems unnecessarily heavy.
-            var newUser:User = new User();
-            newUser.id = event.params.user.id
-            newUser.name = event.params.user.name;
-            this.dispatchEvent(new AdminMessageSFSEvent({sender: newUser, message: event.params.message, data: event.params.data}));
+            this.dispatchEvent(new AdminMessageSFSEvent(event.params.sender, event.params.message, event.params.data));
         }
 
         private function handleConfigLoadFailure(event:SFSEvent):void
@@ -134,7 +134,7 @@ package com.flashfla.net
 
         private function handleConnection(event:SFSEvent):void
         {
-            this.dispatchEvent(new ConnectionSFSEvent(event.params))
+            this.dispatchEvent(new ConnectionSFSEvent(event.params.success))
         }
 
         private function handleConnectionAttemptHttp(event:SFSEvent):void
@@ -195,7 +195,7 @@ package com.flashfla.net
 
         private function handleLogin(event:SFSEvent):void
         {
-            this.dispatchEvent(new LoginSFSEvent(event.params));
+            this.dispatchEvent(new LoginSFSEvent(event.params.user, event.params.data));
         }
 
         private function handleLoginError(event:SFSEvent):void
@@ -360,7 +360,8 @@ package com.flashfla.net
 
         private function handleUserExitRoom(event:SFSEvent):void
         {
-            this.dispatchEvent(new UserExitRoomSFSEvent(event.params));
+            var isMe:Boolean = this.sfs.mySelf === event.params.user;
+            this.dispatchEvent(new UserExitRoomSFSEvent(event.params.user, event.params.room, isMe));
         }
 
         private function handleUserFindResult(event:SFSEvent):void

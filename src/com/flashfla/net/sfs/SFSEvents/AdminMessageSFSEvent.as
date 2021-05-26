@@ -3,21 +3,38 @@ package com.flashfla.net.sfs.SFSEvents
     import com.flashfla.net.sfs.TypedSFSEvent;
     import com.smartfoxserver.v2.core.SFSEvent;
     import com.smartfoxserver.v2.entities.data.ISFSObject;
-    import classes.User;
+    import com.smartfoxserver.v2.entities.User;
 
     public class AdminMessageSFSEvent extends TypedSFSEvent
     {
-        public var sender:User;
-        public var message:String;
-        public var data:ISFSObject;
+        private var _sender:User;
 
-        public function AdminMessageSFSEvent(params:Object)
+        public function get sender():User
+        {
+            return _sender;
+        }
+
+        private var _message:String;
+
+        public function get message():String
+        {
+            return _message;
+        }
+
+        private var _data:ISFSObject;
+
+        public function get data():ISFSObject
+        {
+            return _data;
+        }
+
+        public function AdminMessageSFSEvent(sender:User, message:String, data:ISFSObject)
         {
             super(SFSEvent.ADMIN_MESSAGE);
 
-            sender = params.sender;
-            message = params.message;
-            data = params.data;
+            this._sender = sender;
+            this._message = message;
+            this._data = data;
         }
     }
 }

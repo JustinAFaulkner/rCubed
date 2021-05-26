@@ -6,18 +6,23 @@ package com.flashfla.net.sfs.SFSEvents
 
     public class ConnectionSFSEvent extends TypedSFSEvent
     {
-        public var success:Boolean;
+        private var _success:Boolean;
 
-        public function ConnectionSFSEvent(params:Object)
+        public function get success():Boolean
+        {
+            return _success;
+        }
+
+        public function ConnectionSFSEvent(success:Boolean)
         {
             super(SFSEvent.CONNECTION);
 
-            this.success = params.success;
+            this._success = success;
         }
 
         public override function clone():Event
         {
-            return new ConnectionSFSEvent({success: this.success});
+            return new ConnectionSFSEvent(this.success);
         }
     }
 }

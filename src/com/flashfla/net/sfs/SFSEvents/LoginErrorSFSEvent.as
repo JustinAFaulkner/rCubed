@@ -8,15 +8,26 @@ package com.flashfla.net.sfs.SFSEvents
 
     public class LoginErrorSFSEvent extends TypedSFSEvent
     {
-        private var errorMessage:String;
-        private var errorCode:int;
+        private var _errorMessage:String;
+
+        public function get errorMessage():String
+        {
+            return _errorMessage;
+        }
+
+        public var _errorCode:int;
+
+        private function get errorCode():int
+        {
+            return _errorCode;
+        }
 
         public function LoginErrorSFSEvent(params:Object)
         {
             super(SFSEvent.LOGIN_ERROR);
 
-            this.errorMessage = params.errorMessage;
-            this.errorCode = params.errorCode;
+            this._errorMessage = params.errorMessage;
+            this._errorCode = params.errorCode;
         }
     }
 }

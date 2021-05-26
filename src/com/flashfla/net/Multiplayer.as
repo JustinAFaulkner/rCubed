@@ -105,9 +105,9 @@ package com.flashfla.net
             ghostRooms = new <Room>[];
 
             server = new SmartFox(true);
-            eventHandler = new SFS2XEventHandler(server);
             roomManager = new SFSRoomManager(server);
             userManager = new SFSUserManager(server);
+            eventHandler = new SFS2XEventHandler(server, roomManager, userManager);
 
 
             // Configuration
@@ -124,9 +124,9 @@ package com.flashfla.net
             eventHandler.addEventListener(SFSEvent.LOGIN, handleLogin);
             eventHandler.addEventListener(SFSEvent.LOGIN_ERROR, handleLoginError);
             eventHandler.addEventListener(SFSEvent.LOGOUT, handleLogout);
-            // _SFS2XEventHandler.addEventListener(SFSEvent.SOCKET_ERROR, handleSocketError);
-            // _SFS2XEventHandler.addEventListener(SFSEvent.UDP_INIT, handleUdpInit);
-            // _SFS2XEventHandler.addEventListener(SFSEvent.CRYPTO_INIT, handleCryptoInit);
+            // eventHandler.addEventListener(SFSEvent.SOCKET_ERROR, handleSocketError);
+            // eventHandler.addEventListener(SFSEvent.UDP_INIT, handleUdpInit);
+            // eventHandler.addEventListener(SFSEvent.CRYPTO_INIT, handleCryptoInit);
 
 
             // Messages
@@ -137,47 +137,47 @@ package com.flashfla.net
 
 
             // Invitations
-            // _SFS2XEventHandler.addEventListener(SFSEvent.INVITATION, handleInvitation);
-            // _SFS2XEventHandler.addEventListener(SFSEvent.INVITATION_REPLY, handleInvitationReply);
-            // _SFS2XEventHandler.addEventListener(SFSEvent.INVITATION_REPLY_ERROR, handleInvitationReplyError);
+            // eventHandler.addEventListener(SFSEvent.INVITATION, handleInvitation);
+            // eventHandler.addEventListener(SFSEvent.INVITATION_REPLY, handleInvitationReply);
+            // eventHandler.addEventListener(SFSEvent.INVITATION_REPLY_ERROR, handleInvitationReplyError);
 
 
             // Extraneous
-            // _SFS2XEventHandler.addEventListener(SFSEvent.EXTENSION_RESPONSE, handleExtensionResponse, USE_CAPTURE, PRIORITY_VALUE);
-            // _SFS2XEventHandler.addEventListener(SFSEvent.OBJECT_MESSAGE, handleObjectMessage);
-            // _SFS2XEventHandler.addEventListener(SFSEvent.PING_PONG, handlePingPong);
+            // eventHandler.addEventListener(SFSEvent.EXTENSION_RESPONSE, handleExtensionResponse, USE_CAPTURE, PRIORITY_VALUE);
+            // eventHandler.addEventListener(SFSEvent.OBJECT_MESSAGE, handleObjectMessage);
+            // eventHandler.addEventListener(SFSEvent.PING_PONG, handlePingPong);
 
 
             // Rooms
-            // _SFS2XEventHandler.addEventListener(SFSEvent.ROOM_ADD, handleRoomAdd);
-            // _SFS2XEventHandler.addEventListener(SFSEvent.ROOM_CAPACITY_CHANGE, handleRoomCapacityChange);
-            // _SFS2XEventHandler.addEventListener(SFSEvent.ROOM_CAPACITY_CHANGE_ERROR, handleRoomCapacityChangeError);
-            // _SFS2XEventHandler.addEventListener(SFSEvent.ROOM_CREATION_ERROR, handleRoomCreationError);
-            // _SFS2XEventHandler.addEventListener(SFSEvent.ROOM_FIND_RESULT, handleRoomFindResult);
-            // _SFS2XEventHandler.addEventListener(SFSEvent.ROOM_GROUP_SUBSCRIBE, handleRoomGroupSubscribe);
-            // _SFS2XEventHandler.addEventListener(SFSEvent.ROOM_GROUP_SUBSCRIBE_ERROR, handleRoomGroupSubscribeError);
-            // _SFS2XEventHandler.addEventListener(SFSEvent.ROOM_GROUP_UNSUBSCRIBE, handleRoomGroupUnsubscribe);
-            // _SFS2XEventHandler.addEventListener(SFSEvent.ROOM_GROUP_UNSUBSCRIBE_ERROR, handleRoomGroupUnsubscribeError);
-            // _SFS2XEventHandler.addEventListener(SFSEvent.ROOM_JOIN, handleRoomJoin);
-            // _SFS2XEventHandler.addEventListener(SFSEvent.ROOM_JOIN_ERROR, handleRoomJoinError);
-            // _SFS2XEventHandler.addEventListener(SFSEvent.ROOM_NAME_CHANGE, handleRoomNameChange);
-            // _SFS2XEventHandler.addEventListener(SFSEvent.ROOM_NAME_CHANGE_ERROR, handleRoomNameChangeError);
-            // _SFS2XEventHandler.addEventListener(SFSEvent.ROOM_PASSWORD_STATE_CHANGE, handleRoomPasswordStateChange);
-            // _SFS2XEventHandler.addEventListener(SFSEvent.ROOM_PASSWORD_STATE_CHANGE_ERROR, handleRoomPasswordStateChangeError);
-            // _SFS2XEventHandler.addEventListener(SFSEvent.ROOM_REMOVE, handleRoomRemove);
-            // _SFS2XEventHandler.addEventListener(SFSEvent.ROOM_VARIABLES_UPDATE, handleRoomVariablesUpdate);
+            // eventHandler.addEventListener(SFSEvent.ROOM_ADD, handleRoomAdd);
+            // eventHandler.addEventListener(SFSEvent.ROOM_CAPACITY_CHANGE, handleRoomCapacityChange);
+            // eventHandler.addEventListener(SFSEvent.ROOM_CAPACITY_CHANGE_ERROR, handleRoomCapacityChangeError);
+            // eventHandler.addEventListener(SFSEvent.ROOM_CREATION_ERROR, handleRoomCreationError);
+            // eventHandler.addEventListener(SFSEvent.ROOM_FIND_RESULT, handleRoomFindResult);
+            // eventHandler.addEventListener(SFSEvent.ROOM_GROUP_SUBSCRIBE, handleRoomGroupSubscribe);
+            // eventHandler.addEventListener(SFSEvent.ROOM_GROUP_SUBSCRIBE_ERROR, handleRoomGroupSubscribeError);
+            // eventHandler.addEventListener(SFSEvent.ROOM_GROUP_UNSUBSCRIBE, handleRoomGroupUnsubscribe);
+            // eventHandler.addEventListener(SFSEvent.ROOM_GROUP_UNSUBSCRIBE_ERROR, handleRoomGroupUnsubscribeError);
+            // eventHandler.addEventListener(SFSEvent.ROOM_JOIN, handleRoomJoin);
+            // eventHandler.addEventListener(SFSEvent.ROOM_JOIN_ERROR, handleRoomJoinError);
+            // eventHandler.addEventListener(SFSEvent.ROOM_NAME_CHANGE, handleRoomNameChange);
+            // eventHandler.addEventListener(SFSEvent.ROOM_NAME_CHANGE_ERROR, handleRoomNameChangeError);
+            // eventHandler.addEventListener(SFSEvent.ROOM_PASSWORD_STATE_CHANGE, handleRoomPasswordStateChange);
+            // eventHandler.addEventListener(SFSEvent.ROOM_PASSWORD_STATE_CHANGE_ERROR, handleRoomPasswordStateChangeError);
+            // eventHandler.addEventListener(SFSEvent.ROOM_REMOVE, handleRoomRemove);
+            // eventHandler.addEventListener(SFSEvent.ROOM_VARIABLES_UPDATE, handleRoomVariablesUpdate);
 
 
             // Users
-            // _SFS2XEventHandler.addEventListener(SFSEvent.USER_COUNT_CHANGE, handleUserCountChange);
-            // _SFS2XEventHandler.addEventListener(SFSEvent.USER_ENTER_ROOM, handleUserEnterRoom);
-            // _SFS2XEventHandler.addEventListener(SFSEvent.USER_EXIT_ROOM, handleUserExitRoom);
-            // _SFS2XEventHandler.addEventListener(SFSEvent.USER_FIND_RESULT, handleUserFindResult);
-            // _SFS2XEventHandler.addEventListener(SFSEvent.USER_VARIABLES_UPDATE, handleUserVariablesUpdate);
-            // _SFS2XEventHandler.addEventListener(SFSEvent.PLAYER_TO_SPECTATOR, handlePlayerToSpectator);
-            // _SFS2XEventHandler.addEventListener(SFSEvent.PLAYER_TO_SPECTATOR_ERROR, handlePlayerToSpectatorError);
-            // _SFS2XEventHandler.addEventListener(SFSEvent.SPECTATOR_TO_PLAYER, handleSpectatorToPlayer);
-            // _SFS2XEventHandler.addEventListener(SFSEvent.SPECTATOR_TO_PLAYER_ERROR, handleSpectatorToPlayerError);
+            // eventHandler.addEventListener(SFSEvent.USER_COUNT_CHANGE, handleUserCountChange);
+            // eventHandler.addEventListener(SFSEvent.USER_ENTER_ROOM, handleUserEnterRoom);
+            eventHandler.addEventListener(SFSEvent.USER_EXIT_ROOM, handleUserExitRoom);
+            // eventHandler.addEventListener(SFSEvent.USER_FIND_RESULT, handleUserFindResult);
+            // eventHandler.addEventListener(SFSEvent.USER_VARIABLES_UPDATE, handleUserVariablesUpdate);
+            // eventHandler.addEventListener(SFSEvent.PLAYER_TO_SPECTATOR, handlePlayerToSpectator);
+            // eventHandler.addEventListener(SFSEvent.PLAYER_TO_SPECTATOR_ERROR, handlePlayerToSpectatorError);
+            // eventHandler.addEventListener(SFSEvent.SPECTATOR_TO_PLAYER, handleSpectatorToPlayer);
+            // eventHandler.addEventListener(SFSEvent.SPECTATOR_TO_PLAYER_ERROR, handleSpectatorToPlayerError);
         }
 
         // ================================================================== //
@@ -1441,5 +1441,10 @@ package com.flashfla.net
         //         return;
         //     }
         // }
+
+        private function handleUserExitRoom(event:UserExitRoomSFSEvent):void
+        {
+            this.dispatchEvent(event);
+        }
     }
 }
