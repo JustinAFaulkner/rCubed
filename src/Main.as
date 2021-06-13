@@ -394,33 +394,6 @@ package
 
                 buildContextMenu();
 
-                CONFIG::release
-                {
-                    // Do Air Update Check
-                    if (!Flags.VALUES[Flags.DID_AIR_UPDATE_CHECK])
-                    {
-                        Flags.VALUES[Flags.DID_AIR_UPDATE_CHECK] = true;
-                        var airUpdateCheck:int = AirContext.serverVersionHigher(_site.data["game_r3air_version"]);
-                        //addAlert(_site.data["game_r3air_version"] + " " + (airUpdateCheck == -1 ? "&gt;" : (airUpdateCheck == 1 ? "&lt;" : "==")) + " " + Constant.AIR_VERSION, 240);
-                        if (airUpdateCheck == -1)
-                        {
-                            loadScripts = 0;
-                            preloader.remove();
-                            removeChild(loadStatus);
-                            removeChild(epilepsyWarning);
-                            this.removeEventListener(Event.ENTER_FRAME, updatePreloader);
-
-                            // Switch to game
-                            switchTo(GAME_UPDATE_PANEL);
-                            return;
-                        }
-                        else
-                        {
-                            LocalStore.deleteVariable("air_update_checks");
-                        }
-                    }
-                }
-
                 if ((_gvars.flashvars.replay != null || _gvars.flashvars.preview_file != null) && _gvars.options && _gvars.options.replay)
                 {
                     if (_gvars.options.replay is SongPreview && !_gvars.options.replay.isLoaded)
